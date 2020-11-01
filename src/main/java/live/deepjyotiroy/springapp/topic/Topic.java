@@ -1,7 +1,13 @@
 package live.deepjyotiroy.springapp.topic;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Topic {
-    private long id;
+
+    @Id
+    private Long id;
     private String name;
     private String description;
 
@@ -9,17 +15,17 @@ public class Topic {
 
     }
 
-    public Topic(long id, String name, String description) {
+    public Topic(Long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
