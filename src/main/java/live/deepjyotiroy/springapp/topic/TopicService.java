@@ -1,47 +1,41 @@
 package live.deepjyotiroy.springapp.topic;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TopicService {
-    private List<Topic> topicsList = new ArrayList<>();
+//    private List<Topic> topicsList = new ArrayList<>();
+    @Autowired
+    private TopicRepository topicRepository;
 
     // getting all the topics
     public List<Topic> getAll() {
-        return topicsList;
+        List<Topic> topics = new ArrayList<>();
+        topicRepository.findAll().forEach(topics::add);
+        return topics;
     }
 
     // getting topic by id
-    public Topic getTopicByID(long id) {
-        Topic topic = new Topic();
-        for(Topic t: topicsList) {
-            if(t.getId() == id) {
-                topic.setId(t.getId());
-                topic.setName(t.getName());
-                topic.setDescription(t.getDescription());
-            }
-        }
-        return topic;
+    public Topic getTopicByID(Long id) {
+        Optional<Topic> op_topic = topicRepository.findById(id);
+        return op_topic.get(); // getting the object from the optional<>
     }
 
     // posting a new topic
     public void addTopic(Topic topic) {
-        topicsList.add(topic);
+        topicRepository.save(topic);
     }
 
     public void updateTopic(Topic topic, long id) {
-        for(int i=0; i<topicsList.size(); ++i) {
-            Topic t = topicsList.get(i);
-            if(t.getId() == id) {
-                topicsList.set(i, topic);
-            }
-        }
+        topicRepository.save(topic);
     }
 
-    public void deleteTopic(long id) {
-        topicsList.removeIf(topic -> topic.getId() == id);
+    public void deleteTopic(Long id) {
+        topicRepository.deleteById(id);
     }
 }
